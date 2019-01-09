@@ -1,32 +1,39 @@
 import React, {Component} from 'react';
-import { Card, CardImg, CardImgOverlay, CardText, CardBody,
+import { Card, CardImg, CardText, CardBody,
     CardTitle } from 'reactstrap';
 import { ListGroup, ListGroupItem } from 'reactstrap';
 
     class DishDetail extends Component{
-        constructor(props){
-            super(props);
-        };
 
-        renderComments(selectedDish:object) {
+        componentDidMount() {
+            console.log("Dish component componentDidMount invoked");
+        }
 
-            let comments:object,
-            comment_render:const;
+        componentDidUpdate() {
+            console.log("Dish component componentDidUpdate invoked");
+        }
 
-            if (selectedDish!= null && selectedDish.comments != null ) {
-                
+        renderComments(selectedDish) {
+
+            let comments,
+            comment_render;
+
+            if ((selectedDish!= null ) && (selectedDish.comments != null )) {
+
                 comments = selectedDish.comments;
 
                 comment_render = comments.map((comments) => {
                     return(
                         <div key={comments.id} className="col-12 col-md-5 m-1">
-                        <React.Fragment>  
-                            <ListGroupItem>
-                                {comments.comment}
-                            </ListGroupItem>
-                            <ListGroupItem>
-                                -- {comments.author}, {comments.date}
-                            </ListGroupItem>
+                        <React.Fragment>
+                            <div className="component">
+                                <ListGroupItem>
+                                    {comments.comment}
+                                </ListGroupItem>
+                                <ListGroupItem>
+                                    -- {comments.author} {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit' }).format(new Date(Date.parse(comments.date)))}
+                                </ListGroupItem>
+                            </div>
                         </React.Fragment>
                         </div>
                     )
@@ -46,11 +53,11 @@ import { ListGroup, ListGroupItem } from 'reactstrap';
                 <div>
                 </div>
                 );
-            };
+            }
         };
 
-        renderDishDetail(dish:object) { 
-            if (this.props.showDishDetail != false && dish != null )  {
+        renderDishDetail(dish,showDishDetail) { 
+            if (showDishDetail !== false && dish != null )  {
                 return(
                     <Card>
                         <CardImg width="100%" object src={dish.image} alt={dish.name} />
@@ -66,17 +73,17 @@ import { ListGroup, ListGroupItem } from 'reactstrap';
                 <div>
                 </div>
                 );
-            };
+            }
         };
 
         render(){
-
+            console.log("Dish component render invoked");
             return(
                 <React.Fragment>
                     <div className="component">
                         <div className="row">
                             <div className="col-12 col-md-5 m-1">
-                                {this.renderDishDetail(this.props.selectedDish)}
+                                {this.renderDishDetail(this.props.selectedDish, this.props.showDishDetail)}
                             </div>
                         </div>
                     </div>
