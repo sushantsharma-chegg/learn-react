@@ -1,16 +1,16 @@
 import React, {Component} from 'react';
-import { Card, CardImg, CardText, CardBody,
-    CardTitle } from 'reactstrap';
+import {
+    Card, CardImg, CardText, CardBody,
+    CardTitle, Breadcrumb, BreadcrumbItem
+} from 'reactstrap';
+import { Link } from 'react-router-dom';
 import { ListGroup, ListGroupItem } from 'reactstrap';
 
-function RenderComments({selectedDish}) {
+function RenderComments({comments}) {
 
-let comments,
-comment_render;
+let comment_render;
 
-if ((selectedDish!= null ) && (selectedDish.comments != null )) {
-
-    comments = selectedDish.comments;
+if (comments != null ) {
 
     comment_render = comments.map((comments) => {
         return(
@@ -65,16 +65,26 @@ function RenderDishDetail({showDishDetail, dish}) {
     }
 };
 
-function DishDetail(props) {
+function DishDetail({ dish, comments, showDishDetail}) {
     return (
     <React.Fragment>
         <div className="component">
-          <div className="row">
+            <div className="row">
+                <Breadcrumb>
+                    <BreadcrumbItem><Link to="/menu">Menu</Link></BreadcrumbItem>
+                    <BreadcrumbItem active>{dish.name}</BreadcrumbItem>
+                </Breadcrumb>
+                <div className="col-12">
+                    <h3>{dish.name}</h3>
+                    <hr />
+                </div>
+            </div>
+            <div className="row">
             <div className="col-12 col-md-5 m-1">
-              <RenderDishDetail showDishDetail={props.showDishDetail} dish={props.selectedDish} />
+              <RenderDishDetail showDishDetail={showDishDetail} dish={dish} />
             </div>
             <div className="col-12 col-md-5 m-1">
-              <RenderComments selectedDish={props.selectedDish} />
+              <RenderComments selectedDish={comments} />
             </div>
           </div>
         </div>
